@@ -501,6 +501,12 @@ int target_poll(struct target *target)
 		}
 	}
 
+	if (target->state == TARGET_RESET) {
+		/* probably external reset */
+		LOG_WARNING(">>> RESET STATE IN POLL");
+		target_call_event_callbacks(target, TARGET_EVENT_RESET_END);
+	}
+
 	return ERROR_OK;
 }
 
